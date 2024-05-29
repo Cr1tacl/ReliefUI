@@ -9,16 +9,24 @@ relief.addCategory("Player", "rbxassetid://16149111731")
 relief.addCategory("World", "rbxassetid://17640958405")
 relief.addCategory("Misc", "rbxassetid://1538581893")
 
-relief.addModule("Movement", "speedhax", function(Toggled)
+relief.addModule("Movement", "Speed 50", function(Toggled)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Toggled and 50 or 16
 end)
 
-relief.addModule("Exploit", "infinite yield", function(Toggled)
+relief.addModule("Movement", "Jump 200", function(Toggled)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Toggled and 200 or 50
+end)
+
+relief.addModule("Exploit", "Infinite Yield", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
 
 relief.addModule("Exploit", "Internal UI (for solara)", function()
 	loadstring(game:HttpGet('loadstring(game:HttpGet("https://pastebin.com/raw/xsPhFys2"))()'))()
+end)
+
+relief.addModule("Misc", "Tp Tool" , function()
+	loadstring(game:HttpGet("https://pastebin.com/raw/GuBiX19e"))();
 end)
 
 relief.addModule("Player", "Spider Man (R15)" , function()
