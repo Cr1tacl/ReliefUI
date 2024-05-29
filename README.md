@@ -1,4 +1,5 @@
-Main Script: loadstring(game:HttpGet("https://raw.githubusercontent.com/Cr1tacl/ReliefUI/scriptsmain/reliefui.lua"))()
+Main Script: 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Cr1tacl/ReliefUI/scriptsmain/reliefui.lua"))()
 DO NOT DISTRIBUTE DO NOT COPY DO NOT DISTRIBUTE DO NOT COPY DO NOT DISTRIBUTE DO NOT COPY
 SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY 
 --------------------------------------------------------------------------------------------------------------
