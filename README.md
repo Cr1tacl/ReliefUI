@@ -7,12 +7,6 @@ SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHARE ONLY SHA
 
 
 
-
-
-
-
-
-
 https://github.com/Cr1tacl/ReliefUI/assets/152733429/4e2d1a1a-f105-4da3-be70-2938c8ecea9f
 
 
