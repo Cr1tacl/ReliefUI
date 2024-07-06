@@ -46,4 +46,7 @@ relief.addModule("FE Emote", "FE Emote (use ,)" , function()
 	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Gi7331/scripts/main/Emote.lua"))()
 end)
 
-
+relief.addModule("Exploit", "Aimbot Universal", function()
+    local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
+Aimbot.Load()
+end)
