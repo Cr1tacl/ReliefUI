@@ -54,3 +54,25 @@ end)
 relief.addModule("Combat", "OzzysSwordHub", function()
     loadstring(game:HttpGet("https://pastebin.com/raw/MEaNE1jz"))()
 end)
+
+relief.addModule("Player", "Switch to R15", function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if not character then return end
+
+    -- 1. Create the R15 Model (standard blocky rig)
+    local r15Model = game:GetObjects("rbxassetid://5401560935")[1] -- Standard R15 rig
+    r15Model.Name = player.Name
+    r15Model.Parent = workspace
+    r15Model:MoveTo(character.HumanoidRootPart.Position)
+
+    -- 2. Apply your current avatar's looks
+    local humDesc = game.Players:GetHumanoidDescriptionFromUserId(player.UserId)
+    r15Model.Humanoid:ApplyDescription(humDesc)
+
+    -- 3. Set as your new character
+    player.Character = r15Model
+    
+    -- Clean up the old R6 body
+    character:Destroy()
+end)
