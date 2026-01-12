@@ -21,31 +21,36 @@ relief.addModule("Exploit", "Infinite Yield", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
 
-relief.addModule("Exploit", "Internal UI (for solara)", function()
+relief.addModule("Misc", "Internal UI (for solara)", function()
 	loadstring(game:HttpGet('loadstring(game:HttpGet("https://pastebin.com/raw/xsPhFys2"))()'))()
+end)
+
+relief.addModule("Misc", "Internal UI Seliware", function()
+    local vu = game:GetService("VirtualUser")
+    -- Simulates the press of the Delete key
+    vu:CaptureController()
+    vu:SetKeyDown(Enum.KeyCode.Delete)
+    task.wait(0.1) -- Small delay to ensure the press is registered
+    vu:SetKeyUp(Enum.KeyCode.Delete)
 end)
 
 relief.addModule("Misc", "Tp Tool" , function()
 	loadstring(game:HttpGet("https://pastebin.com/raw/GuBiX19e"))();
 end)
 
-relief.addModule("Player", "Spider Man (R15)" , function()
-	loadstring(game:HttpGet('https://pastebin.com/raw/zXk4Rq2r'))()
-end)
-
-relief.addModule("Player", "Spider Man (R6)" , function()
-	loadstring(game:HttpGet(('https://pastebin.com/raw/2X0hKUgq'),true))()
-end)
-
 relief.addModule("Player", "R15 To R6 (FE)" , function()
 	loadstring(game:HttpGet(('https://raw.githubusercontent.com/Imagnir/r6_anims_for_r15/main/r6_anims.lua'),true))()
 end)
 
-relief.addModule("FE Emote", "FE Emote (use ,)" , function()
+relief.addModule("Player", "FE Emote use ," , function()
 	--keybind to open is comma
-	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Gi7331/scripts/main/Emote.lua"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/7yd7/Hub/refs/heads/Branch/GUIS/Emotes.lua"))()
 end)
 
-relief.addModule("Exploit", "Aimbot Universal", function()
+relief.addModule("Combat", "Aimbot Universal", function()
     	loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()()
+end)
+
+relief.addModule("Combat", "OzzysSwordHub", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/MEaNE1jz"))()
 end)
