@@ -9,12 +9,74 @@ relief.addCategory("Player", "rbxassetid://16149111731")
 relief.addCategory("World", "rbxassetid://17640958405")
 relief.addCategory("Misc", "rbxassetid://1538581893")
 
-relief.addModule("Movement", "Speed 50", function(Toggled)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Toggled and 50 or 16
+relief.addModule("Movement", "Speed Changer", function(Toggled)
+    if Toggled then
+        local sg = Instance.new("ScreenGui", game:GetService("CoreGui"))
+        local frame = Instance.new("Frame", sg)
+        frame.Size = UDim2.new(0, 150, 0, 70)
+        frame.Position = UDim2.new(0.5, -75, 0.4, 0)
+        frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
+        
+        local txt = Instance.new("TextBox", frame)
+        txt.Size = UDim2.new(1, -20, 0, 30)
+        txt.Position = UDim2.new(0, 10, 0, 30)
+        txt.Text = "50"
+        txt.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        txt.TextColor3 = Color3.new(1,1,1)
+        Instance.new("UICorner", txt).CornerRadius = UDim.new(0, 5)
+        
+        local label = Instance.new("TextLabel", frame)
+        label.Size = UDim2.new(1, 0, 0, 25)
+        label.Text = "SET SPEED"
+        label.TextColor3 = Color3.new(1,1,1)
+        label.BackgroundTransparency = 1
+        
+        txt.FocusLost:Connect(function()
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(txt.Text) or 16
+        end)
+        
+        _G.SpeedGui = sg
+    else
+        if _G.SpeedGui then _G.SpeedGui:Destroy() end
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+    end
 end)
 
-relief.addModule("Movement", "Jump 200", function(Toggled)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Toggled and 200 or 50
+
+relief.addModule("Movement", "Jump Changer", function(Toggled)
+    if Toggled then
+        local sg = Instance.new("ScreenGui", game:GetService("CoreGui"))
+        local frame = Instance.new("Frame", sg)
+        frame.Size = UDim2.new(0, 150, 0, 70)
+        frame.Position = UDim2.new(0.5, -75, 0.5, 0)
+        frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
+        
+        local txt = Instance.new("TextBox", frame)
+        txt.Size = UDim2.new(1, -20, 0, 30)
+        txt.Position = UDim2.new(0, 10, 0, 30)
+        txt.Text = "100"
+        txt.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        txt.TextColor3 = Color3.new(1,1,1)
+        Instance.new("UICorner", txt).CornerRadius = UDim.new(0, 5)
+        
+        local label = Instance.new("TextLabel", frame)
+        label.Size = UDim2.new(1, 0, 0, 25)
+        label.Text = "SET JUMP"
+        label.TextColor3 = Color3.new(1,1,1)
+        label.BackgroundTransparency = 1
+        
+        txt.FocusLost:Connect(function()
+            game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = tonumber(txt.Text) or 50
+        end)
+        
+        _G.JumpGui = sg
+    else
+        if _G.JumpGui then _G.JumpGui:Destroy() end
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+    end
 end)
 
 relief.addModule("Exploit", "Infinite Yield", function()
@@ -23,15 +85,6 @@ end)
 
 relief.addModule("Misc", "Internal UI (for solara)", function()
 	loadstring(game:HttpGet('loadstring(game:HttpGet("https://pastebin.com/raw/xsPhFys2"))()'))()
-end)
-
-relief.addModule("Misc", "Internal UI Seliware", function()
-    local vu = game:GetService("VirtualUser")
-    -- Simulates the press of the Delete key
-    vu:CaptureController()
-    vu:SetKeyDown(Enum.KeyCode.Delete)
-    task.wait(0.1) -- Small delay to ensure the press is registered
-    vu:SetKeyUp(Enum.KeyCode.Delete)
 end)
 
 relief.addModule("Misc", "Tp Tool" , function()
@@ -55,29 +108,10 @@ relief.addModule("Combat", "OzzysSwordHub", function()
     loadstring(game:HttpGet("https://pastebin.com/raw/MEaNE1jz"))()
 end)
 
-relief.addModule("Player", "Switch to R15", function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-    if not character then return end
-
-    -- 1. Create the R15 Model (standard blocky rig)
-    local r15Model = game:GetObjects("rbxassetid://5401560935")[1] -- Standard R15 rig
-    r15Model.Name = player.Name
-    r15Model.Parent = workspace
-    r15Model:MoveTo(character.HumanoidRootPart.Position)
-
-    -- 2. Apply your current avatar's looks
-    local humDesc = game.Players:GetHumanoidDescriptionFromUserId(player.UserId)
-    r15Model.Humanoid:ApplyDescription(humDesc)
-
-    -- 3. Set as your new character
-    player.Character = r15Model
-    
-    -- Clean up the old R6 body
-    character:Destroy()
-end)
-
-
 relief.addModule("Movement", "Ozzy's Flinger", function()
     loadstring(game:HttpGet("https://pastebin.com/raw/X5RfHyi5"))()
+end)
+
+relief.addModule("Exploit", "Dex Explorer", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua"))()
 end)
