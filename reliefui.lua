@@ -9,73 +9,78 @@ relief.addCategory("Player", "rbxassetid://16149111731")
 relief.addCategory("World", "rbxassetid://17640958405")
 relief.addCategory("Misc", "rbxassetid://1538581893")
 
-relief.addModule("Movement", "Speed Changer", function(Toggled)
-    if Toggled then
-        local sg = Instance.new("ScreenGui", game:GetService("CoreGui"))
-        local frame = Instance.new("Frame", sg)
-        frame.Size = UDim2.new(0, 150, 0, 70)
-        frame.Position = UDim2.new(0.5, -75, 0.4, 0)
-        frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
-        
-        local txt = Instance.new("TextBox", frame)
-        txt.Size = UDim2.new(1, -20, 0, 30)
-        txt.Position = UDim2.new(0, 10, 0, 30)
-        txt.Text = "50"
-        txt.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        txt.TextColor3 = Color3.new(1,1,1)
-        Instance.new("UICorner", txt).CornerRadius = UDim.new(0, 5)
-        
-        local label = Instance.new("TextLabel", frame)
-        label.Size = UDim2.new(1, 0, 0, 25)
-        label.Text = "SET SPEED"
-        label.TextColor3 = Color3.new(1,1,1)
-        label.BackgroundTransparency = 1
-        
-        txt.FocusLost:Connect(function()
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(txt.Text) or 16
-        end)
-        
-        _G.SpeedGui = sg
-    else
-        if _G.SpeedGui then _G.SpeedGui:Destroy() end
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-    end
-end)
-
-
 relief.addModule("Movement", "Jump Changer", function(Toggled)
     if Toggled then
         local sg = Instance.new("ScreenGui", game:GetService("CoreGui"))
         local frame = Instance.new("Frame", sg)
-        frame.Size = UDim2.new(0, 150, 0, 70)
-        frame.Position = UDim2.new(0.5, -75, 0.5, 0)
+        frame.Size = UDim2.new(0, 200, 0, 80)
+        frame.Position = UDim2.new(0.5, -100, 0.55, 0)
         frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
         Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
         
-        local txt = Instance.new("TextBox", frame)
-        txt.Size = UDim2.new(1, -20, 0, 30)
-        txt.Position = UDim2.new(0, 10, 0, 30)
-        txt.Text = "100"
-        txt.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        txt.TextColor3 = Color3.new(1,1,1)
-        Instance.new("UICorner", txt).CornerRadius = UDim.new(0, 5)
-        
         local label = Instance.new("TextLabel", frame)
-        label.Size = UDim2.new(1, 0, 0, 25)
-        label.Text = "SET JUMP"
+        label.Size = UDim2.new(1, 0, 0, 30)
+        label.Text = "JUMP POWER: 50"
         label.TextColor3 = Color3.new(1,1,1)
         label.BackgroundTransparency = 1
-        
-        txt.FocusLost:Connect(function()
-            game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = tonumber(txt.Text) or 50
+        label.Font = Enum.Font.GothamBold
+
+        local sliderBack = Instance.new("Frame", frame)
+        sliderBack.Size = UDim2.new(0, 160, 0, 6)
+        sliderBack.Position = UDim2.new(0.5, -80, 0.7, 0)
+        sliderBack.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        Instance.new("UICorner", sliderBack)
+
+        local sliderMain = Instance.new("Frame", sliderBack)
+        sliderMain.Size = UDim2.new(0.1, 0, 1, 0)
+        sliderMain.BackgroundColor3 = Color3.fromRGB(0, 255, 150)
+        Instance.new("UICorner", sliderMain)
+
+        local mouse = game.Players.LocalPlayer:GetMouse()
+        local uis = game:GetService("UserInputService")
+        local draggingSlider = false
+
+        local function updateJump()
+            local percent = math.clamp((mouse.X - sliderBack.AbsolutePosition.X) / sliderBack.AbsoluteSize.X, 0, 1)
+            sliderMain.Size = UDim2.new(percent, 0, 1, 0)
+            local val = math.floor(50 + (percent * 450)) -- Max 500
+            label.Text = "JUMP POWER: " .. val
+            if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+                game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true
+                game.Players.LocalPlayer.Character.Humanoid.JumpPower = val
+            end
+        end
+
+        sliderBack.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then draggingSlider = true end
         end)
-        
+        uis.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then draggingSlider = false end
+        end)
+        uis.InputChanged:Connect(function(input)
+            if draggingSlider and input.UserInputType == Enum.UserInputType.MouseMovement then updateJump() end
+        end)
+
+        local dragStart, startPos
+        frame.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 and not draggingSlider then
+                dragStart = input.Position; startPos = frame.Position
+                input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragStart = nil end end)
+            end
+        end)
+        uis.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement and dragStart then
+                local delta = input.Position - dragStart
+                frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            end
+        end)
+
         _G.JumpGui = sg
     else
         if _G.JumpGui then _G.JumpGui:Destroy() end
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+        if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+        end
     end
 end)
 
