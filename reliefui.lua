@@ -2,9 +2,9 @@
 local relief = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cr1tacl/ReliefUI/scriptsmain/libmain.lua"))()
 
 -------------------------------------------------------------------------
--- ESP SETTINGS UI FUNCTION (Put this near the top)
+-- ESP SETTINGS UI FUNCTION
 -------------------------------------------------------------------------
-local function CreateESPSettings()
+local function CreateESPSettings(moduleCallback)
     local sg = Instance.new("ScreenGui", game:GetService("CoreGui"))
     sg.Name = "OzzyESPSettings"
 
@@ -22,6 +22,26 @@ local function CreateESPSettings()
     title.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     title.Font = Enum.Font.GothamBold
     Instance.new("UICorner", title)
+
+    -- THE X BUTTON
+    local closeBtn = Instance.new("TextButton", frame)
+    closeBtn.Size = UDim2.new(0, 25, 0, 25)
+    closeBtn.Position = UDim2.new(1, -27, 0, 2)
+    closeBtn.Text = "X"
+    closeBtn.TextColor3 = Color3.new(1,1,1)
+    closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    closeBtn.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", closeBtn)
+
+    closeBtn.MouseButton1Click:Connect(function()
+        if ExunysDeveloperESP then 
+            ExunysDeveloperESP:Unload() 
+            getgenv().ExunysDeveloperESP = nil
+        end
+        sg:Destroy()
+        -- Note: The ReliefUI toggle state might still be 'on' 
+        -- but the script and GUI are now fully removed.
+    end)
 
     -- Draggable Logic
     local uis = game:GetService("UserInputService")
@@ -59,7 +79,6 @@ local function CreateESPSettings()
         end)
     end
 
-    -- Link UI to Exunys Library
     AddToggle("Boxes", 40, function(v) if ExunysDeveloperESP then ExunysDeveloperESP.Properties.Box.Enabled = v end end)
     AddToggle("Tracers", 75, function(v) if ExunysDeveloperESP then ExunysDeveloperESP.Properties.Tracer.Enabled = v end end)
     AddToggle("Names", 110, function(v) if ExunysDeveloperESP then ExunysDeveloperESP.Properties.ESP.DisplayName = v end end)
@@ -68,6 +87,7 @@ local function CreateESPSettings()
 
     return sg
 end
+
 
 -------------------------------------------------------------------------
 -- CATEGORIES
@@ -86,33 +106,24 @@ relief.addCategory("Misc", "rbxassetid://1538581893")
 local settingsGui
 relief.addModule("Render", "Exunys ESP", function(Toggled)
     if Toggled then
-        -- 1. Check if it's already loaded. If not, load it.
         if not getgenv().ExunysDeveloperESP then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()()
         else
-            -- 2. If it was already loaded but disabled, turn it back on
             getgenv().ExunysDeveloperESP.Settings.Enabled = true
         end
         
-        -- Show the settings GUI
-        if not settingsGui then 
+        if not settingsGui or not settingsGui.Parent then 
             settingsGui = CreateESPSettings() 
         else 
             settingsGui.Enabled = true 
         end
     else
-        -- 3. Instead of Unloading (which kills the script), just disable it
-        -- This allows it to turn back on instantly.
         if getgenv().ExunysDeveloperESP then 
             getgenv().ExunysDeveloperESP.Settings.Enabled = false 
         end
-        
-        if settingsGui then 
-            settingsGui.Enabled = false 
-        end
+        if settingsGui then settingsGui.Enabled = false end
     end
 end)
-
 -------------------------------------------------------------------------
 -- MOVEMENT MODULES
 -------------------------------------------------------------------------
