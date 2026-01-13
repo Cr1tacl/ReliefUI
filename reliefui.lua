@@ -86,16 +86,27 @@ relief.addCategory("Misc", "rbxassetid://1538581893")
 local settingsGui
 relief.addModule("Render", "Exunys ESP", function(Toggled)
     if Toggled then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()()
+        -- 1. Check if it's already loaded. If not, load it.
+        if not getgenv().ExunysDeveloperESP then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()()
+        else
+            -- 2. If it was already loaded but disabled, turn it back on
+            getgenv().ExunysDeveloperESP.Settings.Enabled = true
+        end
+        
+        -- Show the settings GUI
         if not settingsGui then 
             settingsGui = CreateESPSettings() 
         else 
             settingsGui.Enabled = true 
         end
     else
-        if ExunysDeveloperESP then 
-            ExunysDeveloperESP:Unload() 
+        -- 3. Instead of Unloading (which kills the script), just disable it
+        -- This allows it to turn back on instantly.
+        if getgenv().ExunysDeveloperESP then 
+            getgenv().ExunysDeveloperESP.Settings.Enabled = false 
         end
+        
         if settingsGui then 
             settingsGui.Enabled = false 
         end
