@@ -76,3 +76,8 @@ relief.addModule("Player", "Switch to R15", function()
     -- Clean up the old R6 body
     character:Destroy()
 end)
+
+
+relief.addModule("Movement", "Ozzy's Flinger", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/X5RfHyi5"))()
+end)
